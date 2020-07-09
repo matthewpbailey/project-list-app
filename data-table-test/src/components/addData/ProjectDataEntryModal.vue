@@ -20,7 +20,7 @@
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field label="Project Postcode*" v-model="newProject.postcode" required></v-text-field>
                   <div class="error" v-if="!$v.newProject.postcode.required">Field is required</div>
-                  <div class="error" v-if="!$v.newProject.postcode.isPostcode && !$v.newProject.postcode.maxLength">Project Postcode is not a vaild Postcode</div>
+                  <div class="error" v-if="!$v.newProject.postcode.isPostcode">Project Postcode is not a vaild Postcode</div>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-select
@@ -104,7 +104,7 @@ export default {
           postcode:{
             required,
             isPostcode: IS_POSTCODE_REGEX,
-            maxLength: maxLength(8)
+            //maxLength: maxLength(8)
           }, 
           status:{
             required,
