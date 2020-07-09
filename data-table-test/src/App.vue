@@ -6,7 +6,7 @@
       dark
     >
       <div class="d-flex align-center">
-        <H1>Project List Application</H1>
+        <H1>NMCN Project List Application</H1>
       </div>
 
       <v-spacer></v-spacer>
