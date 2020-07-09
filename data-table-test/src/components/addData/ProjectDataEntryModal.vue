@@ -20,7 +20,7 @@
                 <v-col cols="12" sm="6" md="4">
                   <v-text-field label="Project Postcode*" v-model="newProject.postcode" required></v-text-field>
                   <div class="error" v-if="!$v.newProject.postcode.required">Field is required</div>
-                  <div class="error" v-if="!$v.newProject.postcode.isPostcode">Project Postcode is not a vaild Postcode</div>
+                  <div class="error" v-if="!$v.newProject.postcode.isPostcode || !$v.newProject.postcode.maxLength">Project Postcode is not a vaild Postcode</div>
                 </v-col>
                 <v-col cols="12" sm="6" md="4">
                   <v-select
@@ -75,7 +75,9 @@ import { ProjectTableEntry } from './../../sharedClasses/ProjectTableEntry';
 import { validationMixin } from 'vuelidate';
 import { required,maxLength,minLength,email,helpers,numeric} from 'vuelidate/lib/validators';
   
-const IS_POSTCODE_REGEX = helpers.regex("alphaNum",/[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}/i);
+//Use UK Government Data Standard for postcodes.
+const IS_POSTCODE_REGEX = helpers.regex("alphaNum",/([Gg][Ii][Rr] 0[Aa]{2})|((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([A-Za-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9][A-Za-z]?))))\s?[0-9][A-Za-z]{2})/i);
+const PROJECT_POSTCODE_MAX_CHARS = 8;
 const DEFAULT_DATE = new Date().toISOString().substr(0, 10);
 const PROJECT_NUM_REQUIRED_CHARS = 5;
 const PROJECT_NAME_MAX_CHARS = 100;
@@ -104,7 +106,7 @@ export default {
           postcode:{
             required,
             isPostcode: IS_POSTCODE_REGEX,
-            //maxLength: maxLength(8)
+            maxLength: maxLength(PROJECT_POSTCODE_MAX_CHARS),
           }, 
           status:{
             required,
