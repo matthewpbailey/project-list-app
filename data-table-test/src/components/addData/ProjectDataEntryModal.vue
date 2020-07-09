@@ -71,40 +71,35 @@
     </v-card>
 </template>
 <script>
+import { ProjectTableEntry } from './../../sharedClasses/ProjectTableEntry';
 import { validationMixin } from 'vuelidate';
 import { required,maxLength,minLength,email,helpers,numeric} from 'vuelidate/lib/validators';
   
 const IS_POSTCODE_REGEX = helpers.regex("alphaNum",/[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}/i);
 const DEFAULT_DATE = new Date().toISOString().substr(0, 10);
-const PROJECT_NUM_MAX_CHARS = 5;
+const PROJECT_NUM_REQUIRED_CHARS = 5;
+const PROJECT_NAME_MAX_CHARS = 100;
 
 export default {
     name: 'ProjectDataEntryModal',
     mixins: [validationMixin],
     data: () => ({
       defaultDate: DEFAULT_DATE,
-      projectNumMaxChars: PROJECT_NUM_MAX_CHARS,
+      projectNumMaxChars: PROJECT_NUM_REQUIRED_CHARS,
       isDatePickerOpen:false,
-      newProject:{
-        number: null,
-        name: null,
-        postcode: null,
-        status: null,
-        endDate: DEFAULT_DATE, 
-        email: null
-      }
+      newProject: new ProjectTableEntry() 
     }),
     validations: {
       newProject:{
           number:{
             required,
-            maxLength: maxLength(5), 
-            minLength: minLength(5),
+            maxLength: maxLength(PROJECT_NUM_REQUIRED_CHARS), 
+            minLength: minLength(PROJECT_NUM_REQUIRED_CHARS),
             isANumber: numeric
           }, 
           name:{
             required,
-            maxLength: maxLength(100)
+            maxLength: maxLength(PROJECT_NAME_MAX_CHARS)
           }, 
           postcode:{
             required,
@@ -126,14 +121,7 @@ export default {
     },
     methods:{
       clearForm: function(){
-        this.newProject = {
-          number: null,
-          name: null,
-          postcode: null,
-          status: null,
-          endDate: null,
-          email: null   
-        }
+        this.newProject = new ProjectTableEntry();
       },
       closeDatePicker: function(){
         this.isDatePickerOpen = false;

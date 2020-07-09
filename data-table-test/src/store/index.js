@@ -1,23 +1,25 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
+import Vue from 'vue';
+import Vuex from 'vuex';
+import { ProjectTableEntryBuilder } from './../sharedClasses/ProjectTableEntryBuilder'; 
 Vue.use(Vuex);
+
 const STARTING_NUM = 1;
 const STARTING_NUM_STR = "" + STARTING_NUM; 
 const ZERO_PAD_STR = "0"; 
-const MAX_PADDING = 5; 
+const MAX_PADDING = 5;
+
+const DEMO_TABLE = new ProjectTableEntryBuilder()
+.setNumber(STARTING_NUM_STR.padStart(MAX_PADDING, ZERO_PAD_STR))
+.setName('Project List Appliction')
+.setPostcode("NG12 4HP")
+.setStatus("Complete")
+.setEmail("jon.smith@gmail.com")
+.setEndDate("07/07/2020").build();
 export default new Vuex.Store({
   state: {
     currentProjectNumber: STARTING_NUM,
     isProjectEntryModelOpen:false,
-    projectTableData: [{
-          name: 'Project List Appliction',
-          number: STARTING_NUM_STR.padStart(MAX_PADDING, ZERO_PAD_STR),
-          postcode: "NG12 4HP",
-          status: "Complete",
-          endDate: "07/07/2020",
-          email: "jon.smith@gmail.com"
-        }]
+    projectTableData: [DEMO_TABLE]
   },
   mutations: {
     pushProjectTableItem(state,item){
