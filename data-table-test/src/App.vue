@@ -28,7 +28,7 @@
 
 <script>
 import ProjectList from './components/ProjectList';
-import AddData from './components/AddData';
+import AddData from './components/addData/AddData';
 
 export default {
   name: 'App',

@@ -1,21 +1,9 @@
 <template>
-  <v-row justify="center">
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-        color="primary"
-        dark
-        v-bind="attrs"
-        v-on="on"
-        >
-            Open Dialog
-        </v-btn>
-      </template>
-      <v-card>
-          <v-card-title>
+    <v-card>
+        <v-card-title>
             <span class="headline">New Project</span>
-          </v-card-title>
-          <v-card-text>
+        </v-card-title>
+        <v-card-text>
             <v-container>
               <v-row>
                 <v-col cols="12">
@@ -74,28 +62,26 @@
               </v-row>
             </v-container>
             <small>*indicates required field</small>
-          </v-card-text>
-          <v-card-actions>
+        </v-card-text>
+        <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="closeForm();clearForm()">Cancel</v-btn>
             <v-btn color="blue darken-1" v-if="!$v.$invalid" text @click="saveForm();clearForm()">Save</v-btn>
-          </v-card-actions>
-        </v-card>
-    </v-dialog>
-  </v-row>
+        </v-card-actions>
+    </v-card>
 </template>
 <script>
-  import { validationMixin } from 'vuelidate';
-  import { required,maxLength,minLength,email,helpers,numeric} from 'vuelidate/lib/validators';
+import { validationMixin } from 'vuelidate';
+import { required,maxLength,minLength,email,helpers,numeric} from 'vuelidate/lib/validators';
   
-  const isPostcodeRegex = helpers.regex("alphaNum",/[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}/i);
-  const DEFAULT_DATE = new Date().toISOString().substr(0, 10);
-  const PROJECT_NUM_MAX_CHARS = 5;
-  export default {
-    name: 'AddData',
+const IS_POSTCODE_REGEX = helpers.regex("alphaNum",/[A-Z]{1,2}[0-9]{1,2}[A-Z]?\s?[0-9][A-Z]{2}/i);
+const DEFAULT_DATE = new Date().toISOString().substr(0, 10);
+const PROJECT_NUM_MAX_CHARS = 5;
+
+export default {
+    name: 'ProjectDataEntryModal',
     mixins: [validationMixin],
     data: () => ({
-      dialog:false,
       defaultDate: DEFAULT_DATE,
       projectNumMaxChars: PROJECT_NUM_MAX_CHARS,
       isDatePickerOpen:false,
@@ -122,7 +108,7 @@
           }, 
           postcode:{
             required,
-            isPostcode: isPostcodeRegex,
+            isPostcode: IS_POSTCODE_REGEX,
             maxLength: maxLength(8)
           }, 
           status:{
@@ -153,7 +139,7 @@
         this.isDatePickerOpen = false;
       },
       closeForm: function(){
-        this.dialog = false;
+        this.$store.dispatch("closeProjectEntryModel");
         this.clearForm();
       },
       saveForm: function(){
@@ -161,5 +147,5 @@
         this.closeForm();
       }
     }
-  }
+}
 </script>
