@@ -14,7 +14,7 @@ const DEMO_TABLE = new ProjectTableEntryBuilder()
 .setPostcode("NG12 4HP")
 .setStatus("Complete")
 .setEmail("jon.smith@gmail.com")
-.setEndDate("07/07/2020").build();
+.setEndDate("2020-07-07").build();
 export default new Vuex.Store({
   state: {
     currentProjectNumber: STARTING_NUM,
